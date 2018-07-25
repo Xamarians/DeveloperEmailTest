@@ -222,6 +222,7 @@ namespace DeveloperTest.ViewModels
             IsBusy = true;
             try
             {
+                MessageBody = null;
                 EmailItems.Clear();
                 await emailService.BeginDownloadInboxAsync(cts.Token);
             }
