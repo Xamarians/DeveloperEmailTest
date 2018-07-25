@@ -1,0 +1,108 @@
+﻿<Window x:Class="DeveloperTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="740" Width="1200"
+        xmlns:converters="clr-namespace:DeveloperTest.Converters" WindowStartupLocation="CenterScreen" MinWidth="800" MinHeight="600">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <converters:InvertValueConverter x:Key="invertValueConverter"></converters:InvertValueConverter>
+            <converters:VisibilityConverter x:Key="visibilityConverter"></converters:VisibilityConverter>
+            <Style TargetType="TextBox">
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Height" Value="28"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
+            </Style>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Row 1-->
+        <Grid Grid.Column="0" Grid.Row="0" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Server Type-->
+            <Label Grid.Row="0" Grid.Column="0" Content="Server Type"></Label>
+            <ComboBox  Grid.Row="0" Grid.Column="1" SelectedValue="{Binding ServerType}" SelectedValuePath="Content">
+                <ListBoxItem Content="IMAP"/>
+                <ListBoxItem Content="POP3"/>
+            </ComboBox>
+            <!-- Encryption -->
+            <Label Grid.Row="0" Grid.Column="3" Content="Encryption"></Label>
+            <ComboBox Grid.Row="0" Grid.Column="4" SelectedValue="{Binding Encryption}" SelectedValuePath="Content">
+                <ListBoxItem Content="Unencrypted"/>
+                <ListBoxItem Content="SSL/TLS"/>
+                <ListBoxItem Content="STARTTLS"/>
+            </ComboBox>
+            <!-- Server-->
+            <Label Grid.Row="2" Grid.Column="0" Content="Server"></Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Server}"></TextBox>
+            <!-- Username-->
+            <Label Grid.Row="2" Grid.Column="3" Content="Username"></Label>
+            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Username}"></TextBox>
+
+            <!-- Port-->
+            <Label Grid.Row="4" Grid.Column="0" Content="Port"></Label>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Port}"></TextBox>
+            <!-- Password-->
+            <Label Grid.Row="4" Grid.Column="3" Content="Password"></Label>
+            <PasswordBox Grid.Row="4" Grid.Column="4" PasswordChar="*" VerticalContentAlignment="Center" 
+                         PasswordChanged="OnPasswordBox_PasswordChanged"></PasswordBox>
+
+            <!-- Error Message -->
+            <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"  Foreground="#FFE10000" Text="{Binding ErrorMessage}" 
+                       TextWrapping="Wrap" />
+
+            <Button Grid.Row="6" Grid.Column="4" Content="Connect" Command="{Binding ConnectCommand}" 
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource invertValueConverter} }"/>
+
+        </Grid>
+
+        <!--Row 2-->
+        <ProgressBar Grid.Row="1" Grid.Column="0" Height="5" VerticalAlignment="Top" Visibility="{Binding IsBusy, Converter={ StaticResource visibilityConverter}}" IsIndeterminate="True"/>
+        <DataGrid Grid.Row="1" Grid.Column="0" Margin="0,5,0,0" ItemsSource="{Binding EmailItems}" SelectedItem="{Binding Path=SelectedItem, Mode=OneWayToSource}" 
+                  VerticalAlignment="Stretch" IsReadOnly="True" Background="LightGray" RowBackground="LightYellow" 
+                  AlternatingRowBackground="LightBlue" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding From}" Width="200" ClipboardContentBinding="{x:Null}" Header="From"/>
+                <DataGridTextColumn Binding="{Binding Subject}" Width="*" ClipboardContentBinding="{x:Null}" Header="Subject"/>
+                <DataGridTextColumn Binding="{Binding CreatedOn, StringFormat='dd/mm/yyyy'}" Width="100" ClipboardContentBinding="{x:Null}" Header="Date" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--Row 3-->
+        <TextBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" TextWrapping="Wrap"
+                 Text="{Binding MessageBody}" IsReadOnly="True" />
+
+    </Grid>
+</Window>
