@@ -55,7 +55,8 @@ Problems:
 
 2. If emails headers are downloading (one by one) and meanwhile user click on email to body of selected email using same IMap instance from which list of emails are downloading then we are getting error "Tried to read a line. Only received. Please make sure that antivirus and firewall software are disabled or configured correctly." also it cause to stop downloading emails by throwing error "Last network operation failed."
 
-We can download email body simultaneously by creating another instance of IMap but it requires re-connect and login to email server again and again in each download. So instead Instead of creating seperate theread with 5 concurrent connection I have downloaded emails in sequence using single instance. 
+Implementation:
+We can download email body simultaneously by creating another instance of IMap but it requires re-connect and login to email server again and again in each download. So instead of creating seperate theread we have downloaded emails in sequence using single instance. 
 Downloaded body in separate thread by putting hard limit of 5 simultaneous connections at a time.
 
 If you are not satiesfied with sequancial downloads then we can change it simultaneous.
