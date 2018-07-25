@@ -46,7 +46,7 @@ Note that the included evaluation version of Mail.dll changes the subject of som
 - Variables have meaningful names, and naming in general, including properties and methods, is consistent with: https://msdn.microsoft.com/en-us/library/ms229002(v=vs.110).aspx
 
 
-##Solution
+------
 
 It seems Mail.dll doesn't support simultaneous requests with single instance. 
 
