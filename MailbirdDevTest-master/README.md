@@ -35,7 +35,7 @@ The following are direct links to the appropriate samples from the Mail.dll samp
 
 Note that the included evaluation version of Mail.dll changes the subject of some emails to "Please purchase a license" message and shows "Please purchase a license" dialogs.
 
-## What we look for in particular
+### What we look for in particular
 
 - Code duplication is kept to a minimum by using inheritance and otherwise unifying code.
 - Magic strings and other code smells are kept to a minimum / is non existent.
@@ -50,14 +50,12 @@ Note that the included evaluation version of Mail.dll changes the subject of som
 
 It seems Mail.dll doesn't support simultaneous requests with single instance. 
 
-Problems :
+Problems:
 1. Downloading email one by one using single instance is working great but sending simultaneous request creating error  "The Write method cannot be called when another write operation is pending". 
 
-2. If emails headers are downloading (one by one) and meanwhile user click on email to body of selected email using same IMap instance from which list of emails are downloading then we are getting error "Tried to read a line. Only '' received. Please make sure that antivirus and firewall software are disabled or configured correctly." also it cause to stop downloading emails by throwing error "Last network operation failed."
+2. If emails headers are downloading (one by one) and meanwhile user click on email to body of selected email using same IMap instance from which list of emails are downloading then we are getting error "Tried to read a line. Only received. Please make sure that antivirus and firewall software are disabled or configured correctly." also it cause to stop downloading emails by throwing error "Last network operation failed."
 
-Solution :
-We can download emails/body simultaneously by creating another instance of IMap but it requires re-connect and login to email server again and again in each download.   So instead Instead of creating seperate theread with 5 concurrent connection I've downloaded emails in sequence using single instance. 
+We can download email body simultaneously by creating another instance of IMap but it requires re-connect and login to email server again and again in each download. So instead Instead of creating seperate theread with 5 concurrent connection I have downloaded emails in sequence using single instance. 
 Downloaded body in separate thread by putting hard limit of 5 simultaneous connections at a time.
--
-If you are not satiesfied with sequancial downloads then we can change it simultaneous.
 
+If you are not satiesfied with sequancial downloads then we can change it simultaneous.
